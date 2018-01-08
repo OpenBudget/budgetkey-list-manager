@@ -1,0 +1,47 @@
+$ curl https://api-testing.datahub.io/auth/check
+{
+  "authenticated": false,
+  "providers": {
+    "github": {
+      "url": "https://github.com/login/oauth/authorize?response_type=code&client_id=79dea49722876b4dbb60&redirect_uri=https%3A%2F%2Fapi-testing.datahub.io%2Fauth%2Foauth_callback&scope=user%3Aemail&state=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuZXh0IjoiaHR0cDovL2V4YW1wbGUuY29tIiwicHJvdmlkZXIiOiJnaXRodWIiLCJleHAiOjE0OTk3NDk3NDcsIm5iZiI6MTQ5OTc0OTE0N30.a1R7-qcTAGSb13OrXwMG3j9OM6psyTdkxvGUZk32HIY"
+    },
+    "google": {
+      "url": "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=558177797242-ncic39vdjeetoacp50d5insfo3flap2a.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fapi-testing.datahub.io%2Fauth%2Foauth_callback&scope=email+profile&state=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuZXh0IjoiaHR0cDovL2V4YW1wbGUuY29tIiwicHJvdmlkZXIiOiJnb29nbGUiLCJleHAiOjE0OTk3NDk3NDcsIm5iZiI6MTQ5OTc0OTE0N30._K1Wa2YR1DCxn6Tv5YyEHcyH6YxuWhgDpt8Ih2X9ZYc"
+    }
+  }
+}
+$ # OPEN browser, GOT Token 
+$ curl https://api-testing.datahub.io/auth/check -H 'Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiJjZDUxMTI4OWI1NzczZmZmNWU3ZWZlMzI4ODQ2ZWVmMyIsImV4cCI6MTUwMDk1ODc3N30.o0xUEO-eVku0Eg5cZ6Hgbm3fUCt-RXwCaPmqBryox_E'
+{
+  "authenticated": true,
+  "profile": {
+    "avatar_url": "https://lh3.googleusercontent.com/-KO34NXiHVQ4/AAAAAAAAAAI/AAAAAAACQEY/DC3xVpn1_2s/photo.jpg",
+    "email": "adam.kariv@gmail.com",
+    "id": "cd511289b5773fff5e7efe328846eef3",
+    "join_date": "Tue, 11 Jul 2017 04:59:37 GMT",
+    "name": "Adam Kariv",
+    "provider_id": "google:118052062832925952777",
+    "username": null
+  }
+}
+$ curl "https://api-testing.datahub.io/auth/authorize?service=world" -H 'Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiJjZDUxMTI4OWI1NzczZmZmNWU3ZWZlMzI4ODQ2ZWVmMyIsImV4cCI6MTUwMDk1ODc3N30.o0xUEO-eVku0Eg5cZ6Hgbm3fUCt-RXwCaPmqBryox_E'
+{
+  "permissions": {},
+  "service": "world",
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiJjZDUxMTI4OWI1NzczZmZmNWU3ZWZlMzI4ODQ2ZWVmMyIsInBlcm1pc3Npb25zIjp7fSwic2VydmljZSI6IndvcmxkIn0.ZO1iprNwXe-WJoZYAe74fKd8IepxAXFJzKQVi-7yy10LSkAVcclBuXR_KlI_gXF5zxeVVq81K0RRpO1h7kevh7CDWscm5u6nrGz1x2m_qlJzpkUxB1dhnc1OcFjCHSPuH2i7ShN5GfnHhrhs6W5vHwoB86ftjDyshGIv9AA3mVc15zZyQC1hFZKyV7Kw33x4MdBP8hlPjT9ltE4C4iIARiSq2rA2t-7Nz2bzptvTZg0YxzhKMAlcQKffmdEnul5PrsbXwoZ5_yJJDcT1JuGVz-cfekrEGaqpf3fkU-114IlF-mMaXXn8ejnoTogj1p8T17Qk9LqlE0KOxyBYLTW5yg",
+  "userid": "cd511289b5773fff5e7efe328846eef3"
+}
+# GOT Authz Token ^^^
+$ curl "https://api-testing.datahub.io/source/upload" -H 'Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiJjZDUxMTI4OWI1NzczZmZmNWU3ZWZlMzI4ODQ2ZWVmMyIsInBlcm1pc3Npb25zIjp7fSwic2VydmljZSI6IndvcmxkIn0.ZO1iprNwXe-WJoZYAe74fKd8IepxAXFJzKQVi-7yy10LSkAVcclBuXR_KlI_gXF5zxeVVq81K0RRpO1h7kevh7CDWscm5u6nrGz1x2m_qlJzpkUxB1dhnc1OcFjCHSPuH2i7ShN5GfnHhrhs6W5vHwoB86ftjDyshGIv9AA3mVc15zZyQC1hFZKyV7Kw33x4MdBP8hlPjT9ltE4C4iIARiSq2rA2t-7Nz2bzptvTZg0YxzhKMAlcQKffmdEnul5PrsbXwoZ5_yJJDcT1JuGVz-cfekrEGaqpf3fkU-114IlF-mMaXXn8ejnoTogj1p8T17Qk9LqlE0KOxyBYLTW5yg' --data-binary '{
+>   "meta": {
+>     "owner": "cd511289b5773fff5e7efe328846eef3",
+>     "id": "my-demo-sequence"
+>   }
+> }' -H 'content-type: application/json'
+{
+  "errors": [],
+  "id": "my-demo-sequence",
+  "success": true
+}
+# Now open http://api-testing.datahub.io/pipelines/ to see the result of the execution
+

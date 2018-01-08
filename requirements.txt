@@ -1,0 +1,5 @@
+https://github.com/datahq/auth/archive/feature/external-providers.zip
+flask
+flask-cors
+flask-jsonpify
+requests
