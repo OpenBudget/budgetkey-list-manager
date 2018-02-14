@@ -10,7 +10,7 @@ from .config import db_connection_string
 import logging
 
 
-def make_blueprint(verifyer_args=None, enable_mock_oauth=None):
+def make_blueprint(verifyer_args=None, enable_mock_oauth=None): #noqa
     """Create blueprint.
     """
     setup_engine(db_connection_string)
@@ -32,7 +32,7 @@ def make_blueprint(verifyer_args=None, enable_mock_oauth=None):
         except Exception:
             if enable_mock_oauth:
                 logging.warning("Failed to verify permissions, continuing with mock permissions")
-                permissions = {"authenticated": True, "profile": {"id": str(token)}}
+                permissions = {"userid": str(token)}
             else:
                 raise
         return permissions

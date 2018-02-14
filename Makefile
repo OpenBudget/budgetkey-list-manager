@@ -16,6 +16,9 @@ list:
 test:
 	pylama budgetkey_list_manager
 	tox
+	tests/e2e/start_test_environment.sh & 
+	sleep 3 
+	tests/e2e/test.sh
 
 version:
 	@echo $(VERSION)

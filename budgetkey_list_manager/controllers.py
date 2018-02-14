@@ -2,7 +2,7 @@ from .models import get_list, add_item, create_list, get_items, delete_item, get
 
 
 def store(permissions, list_name, item):
-    user_id = permissions.get("profile", {}).get("id")
+    user_id = permissions.get("userid")
     if not user_id:
         return False
     if not get_list(list_name, user_id):
@@ -12,7 +12,7 @@ def store(permissions, list_name, item):
 
 
 def get(permissions, list_name):
-    user_id = permissions.get("profile", {}).get("id")
+    user_id = permissions.get("userid")
     if not user_id:
         return False
     list = get_list(list_name, user_id)
@@ -22,7 +22,7 @@ def get(permissions, list_name):
 
 
 def delete(permissions, item_id):
-    user_id = permissions.get("profile", {}).get("id")
+    user_id = permissions.get("userid")
     if not user_id:
         return False
     list = get_list_by_item(item_id)
