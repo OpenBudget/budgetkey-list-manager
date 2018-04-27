@@ -1,14 +1,49 @@
+dist:
+  trusty
+
+sudo:
+  required
+
 language:
   python
 
 python:
   - 3.6
+  
+env:
+  global:
+    - K8S_OPS_REPO_BRANCH=master
+    - K8S_OPS_REPO_SLUG=OpenBudget/budgetkey-k8s
+    - DOCKER_IMAGE=budgetkey/budgetkey-list-manager
+    - DEPLOY_YAML_UPDATE_FILE=values.auto-updated.yaml
+    - DEPLOY_VALUES_CHART_NAME=list-manager
+    - DEPLOY_VALUES_IMAGE_PROP=image
+    - DEPLOY_COMMIT_MESSAGE="automatic update of budgetkey-list-manager"
+    - DEPLOY_GIT_EMAIL=budgetkey-deployer@null.void
+    - DEPLOY_GIT_USER=budgetkey-deployer
+    - secure: FLaqet4/ZLBYQDOZMU0+WwJ/Nd+u+t71xnFP/5S/ADSAe0tiL0PJVbH2bjYvmqB+bIN2Qm9mqn28dls2OQ5Z97wIjOVWGH00x1SB/74YNcpjxJ/tb95tki/0uzH0vh1OaRGZCiBUcrU+Wpu9VtRrzoKp7ZXNlKBK4uYCX/WKOe0Uv4iLyH+yai/GT5uXmDOlg3dpRb5DB+pPaG2ElrC4GpQnYOVVk5Pe2NWbLTt6FH0w6Xni7Q7UdJdCb3JlLaIyqgyx8gD7sruOS06JRG6HfKbzq8drtA4IHI7yO8RDmbIykTvKxG/356/PCn9MVUGcNapkZ4OFhRKQP1yFI1mm2wdF29gyISw7LDhlnCgFHo5pKV/2v4KQLsT6Q6qHd9bYhT4Rjo/nlZ+pJIullNVHbeFk8PeBtupt0vvgjmB4tW3KSP7GpHGHmW6O4JKOoqTvr+OEmy2BV/ug8ejlRdTRjsfvvDtvpIfil76xPpEyhsJNzzLjSt3IOjsujEjWv7s9+tL+B8L18cgmvQ8H9K8fwveIJGseSVZinqVC04lRz/pKnnieBPQkzMOQcfQoyMlss117LMSjcWNbYn5qPWohdDRWYZTCDmU6o9SBrNMyBTP9gpDIWc/yFaJuigX3Xcf9hiIJp7/W5V0MxLHGsyh0xi2c77zZVVUZOmNxpZNCd8M=
+    - secure: 3M9b0tcK73LleTnZZY88oDEj8zA+oBI8rs71vyt5YlIvYqaaeMWqcARZOLVDbNxO+VlwoWTctkl1bc/N3FDCbwPVVbwC8cPioqWfdn+Pa+qmzisF/liKk9WiVaCySQnc4d2PLC9twn8PISE5D3kPSImwunJdcoUotlCbFrWdgmlKuwv33W0fKzliNUfeVdAJybmDmqs5iNeXWzNVDNw7cSx5SXxPpEYsYWTW74JPJXDT1Q/LUOpwnH16U8Wc0PAWKrTDhBwQ0zFLHz2shs423EMGfNTGiSLoMij7GV5a1RquYTNKo4Ir/MOsLs2rF1mybvzx2BoOcsaQjkOBuXzQs9VAWfffY83/nxVREOsW+DYTRa19p2Nsob+hCtUJFNqVrO0ku5s7kHVnM6sy42d63HXGTjBCu+4Tr/vbSweHIu0G7N3dIXHE8sdq7OhD7QrhXtRn1ZS+SyQRU8Zr28Is9j/2New0Xdjrl182SxOVyAVBy6FYeiPo6C6ANiee6XLLZfjeRypAAS3SDHN2QpNkVTSSbeb/zU6kp8V8m7s7tGg3gZakYe0Jecs+2kFcbzbEta8xKnVGVDC9EP6/z44LH8rbix4jPcHPb3YcTvNYp7dLHD85pXuEgtiGuEQdt0A7bMG3rswvJ58xoAD/lZx6jtzLRnCgeQo88jfV+swluXo=
+    - secure: qmgOILTTvsetmWNUsZXcirrBP14VzqV5iRDPgojdVVKT5N3CUqtZeTmxW5iPhMuKWupsSFfvXaabO7Cy+1iZMuCBOlstaoykLM8IiQmlxARZxWOl0/iEp/rKX1Po+NZcS3kRyFeY2A4N6BdGp3mTt81szJKTcGMO9HWkpOD5oPvKj5BVXFUcUV4HOArblqpS+gotVm9aBu+H19OZOo/G0zT0NHPClDGVuj4c249hbuEtnSVdyenW8TMofFtGlNvmUnCHPHSzT6X2bIiGSvm4BZ4r2CCtaNembS9R2fndoCu3dI5lA+N5S2dI9iYiyJMtsEoB8PzxIJlpoWyC+jBn4DjEg5r7t8irhiuNaKhPsMvV+i8NaGGMzmRgz9YEhS26bC2yq91n1Zq160BGUgqsaFVKiJxf8B5HM9eTeSMXjUENd37mWRN3sbwsKTOqqP8vfbfYQQuPWgSngyzCTCn5zUIjQDKqHThRDJSoS0xG1/PDsNpcYl5gSY9tCRdjh3fdYYFzIR2hp+N8fwiYsIW3wU6+QT4iZSHzMfli0qfZmRx2pCe4RIt6odiWMTlkeNEQopM6aimKA+PJxijyaRswXaPYTFS1+tLaGis3xn/dkzP+3SoSbQIzEJbX9LTlNRdOODVUDw0MNYGtzxUOQX1Q2QypMuMv1CumMl5BpP2v1p4=
+
+services:
+  - docker
+
+before_install:
+  - curl -s https://raw.githubusercontent.com/OpenBudget/budgetkey-k8s/master/apps_travis_script.sh > .travis.sh
+  - bash .travis.sh script
 
 install:
-  - make install
+  - make install || true
 
 script:
-  - make test
+  - make test || true
 
 after_success:
   - coveralls
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash .travis.sh deploy
+  on:
+    branch: master
