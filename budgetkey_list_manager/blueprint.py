@@ -69,11 +69,11 @@ def make_blueprint(verifyer_args=None, enable_mock_oauth=None): #noqa
 
     # Register routes
     blueprint.add_url_rule(
-        'list', 'put', store_, methods=['PUT'])
+        '/list', 'put', store_, methods=['PUT'])
     blueprint.add_url_rule(
-        'list', 'delete', delete_, methods=['DELETE'])
+        '/list', 'delete', delete_, methods=['DELETE'])
     blueprint.add_url_rule(
-        'list', 'get', read_, methods=['GET'])
+        '/list', 'get', read_, methods=['GET'])
 
     # Return blueprint
     return blueprint
