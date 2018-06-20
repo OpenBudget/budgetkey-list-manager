@@ -17,17 +17,19 @@ list_curl() {
     fi
 }
 
+echo 'Starting!'
+
 # add items
-[ "true" != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${HEALTH_SERVICES_ITEM}")" ] \
+[ '{"item_id": 1, "list_id": 1}' != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${HEALTH_SERVICES_ITEM}")" ] \
     && echo "failed to add health services item to saved search list" && exit 1
 
-[ "true" != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${ACQUISITIONS_AND_MAINTANANCE_ITEM}")" ] \
+[ '{"item_id": 2, "list_id": 1}' != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${ACQUISITIONS_AND_MAINTANANCE_ITEM}")" ] \
     && echo "failed to add acqusitions and maintanence item to saved search list" && exit 1
 
-[ "true" != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${TEST_ITEM}")" ] \
+[ '{"item_id": 3, "list_id": 1}' != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${TEST_ITEM}")" ] \
     && echo "failed to add test item to saved search list" && exit 1
 
-[ "true" != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${FOOBAR_ITEM}")" ] \
+[ '{"item_id": 4, "list_id": 1}' != "$(list_curl PUT "${TEST_USER_ID}" "list=saved-searches" "-d ${FOOBAR_ITEM}")" ] \
     && echo "failed to add foobar item to saved search list" && exit 1
 
 # get items

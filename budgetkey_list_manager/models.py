@@ -69,20 +69,35 @@ def get_list(list_name, user_id):
 def get_list_by_item(item_id):
     with session_scope() as session:
         item = session.query(Item).get(item_id)
-        ret = session.query(List).get(item.list_id)
+        ret = None
+        if item:
+            ret = session.query(List).get(item.list_id)
         return object_as_dict(ret) if ret else None
 
 
 def create_list(list_name, user_id):
     with session_scope() as session:
-        session.add(List(name=list_name, user_id=user_id))
+        to_add = List(name=list_name, user_id=user_id)
+        session.add(to_add)
+        session.flush()
+        return object_as_dict(to_add)
 
 
 def add_item(list_name, user_id, item):
     with session_scope() as session:
         list_id = session.query(List).filter_by(name=list_name, user_id=user_id).first().id
-        if session.query(Item).filter_by(list_id=list_id, title=item["title"], url=item["url"]).count() == 0:
-            session.add(Item(list_id=list_id, **item))
+        to_add = Item(list_id=list_id, **item)
+        existing_item = session.query(Item)\
+                               .filter_by(list_id=list_id,
+                                          title=item["title"],
+                                          url=item["url"])\
+                               .first()
+        if existing_item is None:
+            session.add(to_add)
+            session.flush()
+        else:
+            to_add = existing_item
+        return object_as_dict(to_add)
 
 
 def get_items(list_name, user_id):

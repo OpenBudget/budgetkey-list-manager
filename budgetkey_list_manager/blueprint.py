@@ -27,14 +27,10 @@ def make_blueprint(verifyer_args=None, enable_mock_oauth=None): #noqa
 
     def get_permissions():
         token = request.headers.get('auth-token') or request.values.get('jwt')
-        try:
-            permissions = verifyer.extract_permissions(token)
-        except Exception:
-            if enable_mock_oauth:
-                logging.warning("Failed to verify permissions, continuing with mock permissions")
-                permissions = {"userid": str(token)}
-            else:
-                raise
+        permissions = verifyer.extract_permissions(token)
+        if not permissions and enable_mock_oauth:
+            logging.warning("Failed to verify permissions, continuing with mock permissions")
+            permissions = {"userid": str(token)}
         return permissions
 
     def store_():

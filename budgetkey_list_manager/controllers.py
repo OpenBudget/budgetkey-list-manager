@@ -5,28 +5,32 @@ def store(permissions, list_name, item):
     user_id = permissions.get("userid")
     if not user_id:
         return False
-    if not get_list(list_name, user_id):
-        create_list(list_name, user_id)
-    add_item(list_name, user_id, item)
-    return True
+    list_rec = get_list(list_name, user_id)
+    if not list_rec:
+        list_rec = create_list(list_name, user_id)
+    added_item = add_item(list_name, user_id, item)
+    return dict(
+        item_id = added_item['id'],
+        list_id = list_rec['id']
+    )
 
 
 def get(permissions, list_name):
-    user_id = permissions.get("userid")
+    user_id = permissions.get('userid')
     if not user_id:
         return False
-    list = get_list(list_name, user_id)
-    if not list:
+    list_rec = get_list(list_name, user_id)
+    if not list_rec:
         return False
-    return {"id": list["id"], "items": get_items(list_name, user_id)}
+    return {'id': list_rec['id'], 'items': get_items(list_name, user_id)}
 
 
 def delete(permissions, item_id):
-    user_id = permissions.get("userid")
+    user_id = permissions.get('userid')
     if not user_id:
         return False
-    list = get_list_by_item(item_id)
-    if not list or list["user_id"] != user_id:
+    list_rec = get_list_by_item(item_id)
+    if not list_rec or list_rec['user_id'] != user_id:
         return False
     delete_item(item_id)
     return True
