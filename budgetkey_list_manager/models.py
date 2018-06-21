@@ -1,4 +1,5 @@
 import logging
+import json
 
 from contextlib import contextmanager
 
@@ -46,11 +47,17 @@ def object_as_dict(obj):
             for c in inspect(obj).mapper.column_attrs}
 
 
+def parse_properties(item):
+    item['properties'] = json.loads(item['properties'])
+    return item
+
+
 class List(Base):
     __tablename__ = 'lists'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode)
     user_id = Column(String(128))
+
 
 class Item(Base):
     __tablename__ = 'items'
@@ -58,6 +65,7 @@ class Item(Base):
     list_id = Column(Integer)
     url = Column(String(512))
     title = Column(Unicode)
+    properties = Column(Unicode)
 
 
 def get_list(list_name, user_id):
@@ -86,24 +94,29 @@ def create_list(list_name, user_id):
 def add_item(list_name, user_id, item):
     with session_scope() as session:
         list_id = session.query(List).filter_by(name=list_name, user_id=user_id).first().id
-        to_add = Item(list_id=list_id, **item)
         existing_item = session.query(Item)\
                                .filter_by(list_id=list_id,
                                           title=item["title"],
                                           url=item["url"])\
                                .first()
         if existing_item is None:
+            to_add = Item(list_id=list_id, **item)
             session.add(to_add)
-            session.flush()
+            ret = to_add
         else:
-            to_add = existing_item
-        return object_as_dict(to_add)
+            existing_item.properties = item.properties
+            session.add(existing_item)
+            ret = existing_item
+        session.flush()
+        return object_as_dict(ret)
 
 
 def get_items(list_name, user_id):
     with session_scope() as session:
         list_id = session.query(List).filter_by(name=list_name, user_id=user_id).first().id
-        return list(map(object_as_dict, session.query(Item).filter_by(list_id=list_id)))
+        return list(map(parse_properties,
+                        map(object_as_dict, 
+                            session.query(Item).filter_by(list_id=list_id))))
 
 
 def delete_item(item_id):
