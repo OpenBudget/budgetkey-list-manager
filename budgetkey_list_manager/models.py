@@ -104,7 +104,7 @@ def add_item(list_name, user_id, item):
             session.add(to_add)
             ret = to_add
         else:
-            existing_item.properties = item.properties
+            existing_item.properties = item.get('properties')
             session.add(existing_item)
             ret = existing_item
         session.flush()
