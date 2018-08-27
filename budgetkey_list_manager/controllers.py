@@ -1,6 +1,6 @@
 import json
 
-from .models import get_list, add_item, create_list, get_items, delete_item, get_list_by_item
+from .models import get_list, add_item, create_list, get_items, delete_item, delete_list, get_list_by_item
 
 
 def store(permissions, list_name, item):
@@ -32,8 +32,20 @@ def delete(permissions, item_id):
     user_id = permissions.get('userid')
     if not user_id:
         return False
+    item_id = int(item_id)
     list_rec = get_list_by_item(item_id)
     if not list_rec or list_rec['user_id'] != user_id:
         return False
     delete_item(item_id)
+    return True
+
+
+def delete_all(permissions, list_name):
+    user_id = permissions.get('userid')
+    if not user_id:
+        return False
+    list_rec = get_list(list_name, user_id)
+    if not list_rec:
+        return False
+    delete_list(list_rec['id'])
     return True

@@ -33,10 +33,10 @@ before_install:
   - bash .travis.sh script
 
 install:
-  - make install || true
+  - make install
 
 script:
-  - make test || true
+  - make test
 
 after_success:
   - coveralls

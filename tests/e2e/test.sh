@@ -53,5 +53,14 @@ ITEMS_RES=$(list_curl GET "${TEST_USER_ID}" "list=saved-searches")
 [ "3" != "$(echo "${ITEMS_RES}" | jq '.items | length')" ] \
     && echo "didn't get expected number of items in saved-searches list after deletion" && exit 1
 
+# delete list
+[ "true" != "$(list_curl DELETE "${TEST_USER_ID}" "list=saved-searches&item_id=all")" ] \
+    && echo "failed to delete saved-searches list" && exit 1
+
+# verify list was deleted
+ITEMS_RES=$(list_curl GET "${TEST_USER_ID}" "list=saved-searches")
+[ "0" != "$(echo "${ITEMS_RES}" | jq '.items | length')" ] \
+    && echo "didn't get expected number of items in saved-searches list after deletion" && exit 1
+
 echo "Success!"
 exit 0

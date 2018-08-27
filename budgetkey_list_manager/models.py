@@ -121,4 +121,10 @@ def get_items(list_name, user_id):
 
 def delete_item(item_id):
     with session_scope() as session:
-        session.delete(session.query(Item).get(item_id))
+        item_id = int(item_id)
+        session.query(Item).filter_by(id=item_id).delete()
+
+
+def delete_list(list_id):
+    with session_scope() as session:
+        session.query(Item).filter_by(list_id=list_id).delete()

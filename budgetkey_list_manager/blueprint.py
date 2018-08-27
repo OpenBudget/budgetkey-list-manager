@@ -3,7 +3,7 @@ from auth.lib import Verifyer
 from flask import Blueprint, request, abort
 from flask_jsonpify import jsonpify
 
-from .controllers import store, get, delete
+from .controllers import store, get, delete, delete_all
 from .models import setup_engine
 from .config import db_connection_string
 
@@ -24,6 +24,7 @@ def make_blueprint(verifyer_args=None, enable_mock_oauth=None): #noqa
     store_controller = store
     get_controller = get
     delete_controller = delete
+    delete_all_controller = delete_all
 
     def get_permissions():
         token = request.headers.get('auth-token') or request.values.get('jwt')
@@ -60,8 +61,11 @@ def make_blueprint(verifyer_args=None, enable_mock_oauth=None): #noqa
         item_id = request.values.get('item_id')
         if None in (list_name, item_id):
             abort(400)
-        return jsonpify(delete_controller(permissions, item_id))
-
+        if item_id=='all':
+            return jsonpify(delete_all_controller(permissions, list_name))
+        else:
+            return jsonpify(delete_controller(permissions, item_id))
+    
 
     # Register routes
     blueprint.add_url_rule(
